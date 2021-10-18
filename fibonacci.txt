@@ -1,0 +1,15 @@
+kinicio
+
+	kint numero=5;
+	kint fibonacci = 0;
+	kint auxiliar = 0;
+
+	repetikao( fibonacci > 100)
+
+		eskreva(numero);
+		fibonacci = fibonacci + auxiliar;
+		auxiliar=numero;
+		numero=fibonacci;
+	fimrepetikao;
+
+kim
