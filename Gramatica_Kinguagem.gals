@@ -1,0 +1,138 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+ScannerCaseSensitive = true
+ScannerTable = Full
+Input = Stream
+Parser = LL
+#RegularDefinitions
+numero: [0-9]
+letra: [aA-zZ]
+WS : [\s\t\n\r]
+
+#Tokens
+:{WS}*
+numeko: {numero}+
+kid: {letra} ({letra}|{numero})*
+
+//operadores 
+"("
+")"
+";"
+"="
+"+"
+"-"
+"*"
+"/"
+//"{"
+//"}"
+"=="
+//"!="
+"<"
+//">"
+
+//inicio e fim
+
+kinicio = kid: "kinicio"
+kim = kid: "kim"
+
+//estrutura condicional
+sek = kid: "sek"
+senaok = kid: "senaok"
+fimsek = kid:  "fimsek"
+
+//estrutura de repetição
+enkuanto = kid: "enkuanto"
+fimenkuanto = kid: "fimenkuanto"
+
+//função de entrada(leiak) e saida(eskreva)
+eskreva = kid: "eskreva"
+leiak = kid: "leiak"
+
+//para declarar a variavel como do tipo int
+variavelk = kid: "kint"
+#NonTerminals
+<KINGUAGEM>
+<CODIGO>
+<INSTRUCAO>
+
+<ESCREVA>
+<LEIA>
+<VARIAVEIS>
+<CONDICIONAL>
+<REPETICAO>
+<EXPRESSAO>
+
+
+<ENQUANTO>
+<DECLARACAO>
+<ATRIBUICAO> 
+
+<SE>
+<SENAO>
+<LOGICA>
+<KID_OU_NUMEKO>
+<OPERADORES_MATEMATICOS>
+<OPERADOR_LOGICO> 
+#Grammar
+//ESTRUTURA
+<KINGUAGEM> ::= kinicio  <CODIGO> kim | î;
+<CODIGO> ::= <INSTRUCAO> ";" <CODIGO> | î;
+
+//CHAMADA PARA INSTRUÇÕES DO SISTEMA
+<INSTRUCAO> ::= <VARIAVEIS>
+	|      <ESCREVA>
+	|      <LEIA>
+	|      <CONDICIONAL>
+	|      <REPETICAO>
+	|      <EXPRESSAO> ;
+
+//INSTRUÇÃO PARA ESTRUTURA ESCREVER
+<ESCREVA> ::= eskreva "(" <EXPRESSAO> ")"; 
+
+//INSTRUÇÃO PARA LER
+<LEIA>  ::= leiak "(" kid ")" ;
+
+//INSTRUÇÃO PARA ESTRUTURA CONDICIONAL
+<CONDICIONAL>  ::= <SE> <SENAO> fimsek ;
+<SE> ::= sek "(" <LOGICA> ")" <CODIGO> ;
+<SENAO>::= senaok <CODIGO> | î ;
+
+//ESTRUTURA PARA ESTRUTURA DE REPETIÇÃO
+<REPETICAO>::= <ENQUANTO> fimenkuanto;
+<ENQUANTO> ::= enkuanto "(" <LOGICA> ")" <CODIGO>  ;
+
+
+//ESTRUTUTA PARA ATRIBUIÇÃO DE VARIAVEIS
+<ATRIBUICAO> ::=  "=" <EXPRESSAO> | numeko| î  ";";
+<VARIAVEIS> ::= variavelk kid <ATRIBUICAO>;
+
+//INSTRUÇÃO PARA IDENTIFICAR AS EXPRESSÕES LISTADAS ABAIXO
+<EXPRESSAO> ::= 	kid <EXPRESSAO>
+	|	numeko <EXPRESSAO>
+	|	 "+" <EXPRESSAO>
+	|	 "*" <EXPRESSAO>
+	|	 "-" <EXPRESSAO>
+	|	 "/" <EXPRESSAO>
+	|	  "=" <EXPRESSAO>
+	|	 î
+	| 	"(" <EXPRESSAO>   ")" <EXPRESSAO> ;  
+
+//INSTRUÇÃO PARA CHECAGEM LÓGICA
+<LOGICA>   ::=  <KID_OU_NUMEKO> <OPERADOR_LOGICO> <KID_OU_NUMEKO>;
+<KID_OU_NUMEKO>   ::= kid | numeko;
+
+//INSTRUÇÃO PARA IDENTIFICAR OPERADORES MATEMATICOS
+<OPERADORES_MATEMATICOS> ::=  "+" <EXPRESSAO>
+	|		   "*" <EXPRESSAO>
+	|		   "-" <EXPRESSAO>
+	|		   "/" <EXPRESSAO>
+	|		   "(" <EXPRESSAO>   ")" <EXPRESSAO> ; 
+
+//INSTRUÇÃO PARA IDENTIFICAR OPERADORES LOGICOS
+<OPERADOR_LOGICO>   ::=  "==" | "<";   //CASO QUEIRA OUTRO OPERADOR, BASTA TROCAR AQUI E AJUSTAR NO TOKEN QUE FUNCIONA
+
