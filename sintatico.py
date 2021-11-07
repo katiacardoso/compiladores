@@ -12,7 +12,7 @@ class Analisador_Sintatico:
         self.empilhamento = 0
         self.desempilhamento = 0
         self.reducao_pilha_lista = 0
-        self.producoes_aplicadas = []
+        self.producoes_aplicadas = [ ]
         self.n_producoes_aplicadas= 0
 
         self.arquivo = open('log_operacao.txt','w')
@@ -38,7 +38,7 @@ class Analisador_Sintatico:
             17: ["enkuanto","(","LOGICA",")","CODIGO"],
             18: ["=","EXPRESSAO"],
             19: ["numeko"],
-            20: [";"], 
+            20: [], 
             21: ["kint","kid","ATRIBUICAO"],
             22: ["kid","EXPRESSAO"],
             23: ["numeko","EXPRESSAO"],
@@ -76,6 +76,7 @@ class Analisador_Sintatico:
         }
         
         self.terminais = {
+            '$':[1],
             'numeko':[2,9,23,19,31,33],
             'kid': [2,9,22,31,32],
             'kint': [2, 4, 21],
@@ -98,86 +99,67 @@ class Analisador_Sintatico:
             'fimenkuanto':[3],
             'eskreva':[2,5,10],
             'leiak':[2,6,11],
-            'variavelk':[2,4,21]
+            'kint':[2,4,21]
         }
         
     def verificacao_sintatica(self):
-        print('entra verificacao')
+        
+        self.arquivo.write("EMPILHANDO: {0}  \n".format(self.pilha_sintatica[0]))
+        self.arquivo.write("EMPILHANDO: {0} \n".format(self.pilha_sintatica[-1]))
         while ( self.list_tokens[0][0] != '$' and self.pilha_sintatica[-1] != '$' ):
-        #while (len(self.list_tokens) != 0 and len(self.pilha_sintatica)!= 0):
-
-            print('entra while')
             if self.list_tokens[0][0] == self.pilha_sintatica[-1]:
-                print('entra para reduzir e empilhar')
                 self.reg_operacoes(3,-1)
                 del self.list_tokens[0]  
                 self.pilha_sintatica.pop()  
                 self.reducao_pilha_lista += 1
-                self.desempilhamento += 1                
+                self.desempilhamento += 1     
+                    
             elif len(self.list_tokens) == 0 and len(self.pilha_sintatica)>0:
-                print("Erro Sintático: Pilha sintática possui dados e lista sintática  está vazia [error performing parsing] ", self.pilha_sintatica )
+                print("Errooou Sintático: Pilha sintática possui dados e lista sintática  está vazia [error performing parsing] ", self.pilha_sintatica )
                 sys.exit()   
             elif len(self.list_tokens) > 0 and (self.pilha_sintatica) == 0:   
-                print("Erro Sintático: Lista sintática possui dados e pilha sintatica vazia [error performing parsing]", self.list_tokens)               
+                print("Errooou Sintático: Lista sintática possui dados e pilha sintatica vazia [error performing parsing]", self.list_tokens)               
                 sys.exit()
             else:
-                print('entra no else da verificacao')
                 self.tabela_sintatica()               
-                          
-        print("SUCESS: syntatic analysis completed.")
+                 
+        self.arquivo.write("DESEMPILHANDO:{0} \n".format(self.pilha_sintatica[-1]))
         self.arquivo.close()
 
      #Método para verificar regras de produção
     def tabela_sintatica(self):
-        print('entra na tabela_sintatica')
+
         try:
-            print('entra no try')
             producao = self.verifica_producao() 
-            print(producao)
         except:
-            print("entrou no except")
             print("Erro Sintático: não possível encontrar uma producao válida para o valor {0} na linha {1} e coluna {2}.[error performing parsing]".format(self.list_tokens[0][1], self.list_tokens[0][2], self.list_tokens[0][3]))
-            print('minutos antes da caca acontecer')
             sys.exit()
         else:
             self.aplica_producao(producao)
 
     #Metodo reponsavel por verificar se existe producao válida
     def verifica_producao (self):
-        print('entra no verifica producao')
         producao = []   
-        
         x, y = self.valor_producao()            
         producao = list(set(x).intersection(y)) 
-        print('antes do retorno ')
         return producao[0]
       
    
     #Método responsabel por retornar a chave dos dicionarios.
     def valor_producao(self):     
-        print('entrou valor_producao')     
-        #key_stack  = [-1] 
-        #key_list = [-1] 
-            #assim como acima, não mostra nada 
-        #key_stack  = [-1] 
-        #key_list = [1]  
-            #assim só mostra a 1° produção, 1 e 1 tbm
         key_stack  = [-1] 
         key_list = [-1]  
         #Procurando a chave correspondente da Pilha       
         for i in self.nao_terminais.keys():   
-            if i == self.pilha_sintatica[-1]:   
-                print(self.pilha_sintatica[-1])             
+            if i == self.pilha_sintatica[-1]:                
                 key_stack = self.nao_terminais[i]               
         #Procurando a chave correspondente da Lista.  
         for j in self.terminais.keys():  
 
             if j == self.list_tokens[0][0]:
-                print(self.terminais[j])
+                #print(self.terminais[j])
                 key_list = self.terminais[j]
 
-        print("key stack:" ,key_stack)
-        print("key_list", key_list)
         return (key_stack,key_list)       
                     
     #Método responsavel por aplicar a producao
@@ -191,7 +173,7 @@ class Analisador_Sintatico:
             self.desempilhamento += 1
 
             #producoes vazias
-            if any([valor_producao != 1, valor_producao != 3, valor_producao != 15, valor_producao != 29]):                     
+            if any([valor_producao != 1, valor_producao != 3, valor_producao != 15, valor_producao != 20, valor_producao != 29]):                     
                 
                 for i in reversed(valor_producao):                    
                     self.pilha_sintatica.append(i)
@@ -202,31 +184,23 @@ class Analisador_Sintatico:
             print("Erro Sintático: valor foi possivel encontrar uma producao valida para o valor  {0} na linha {1} e coluna {2}. [error performing parsing]".format(self.list_tokens[0][1], self.list_tokens[0][2], self.list_tokens[0][3]))            
          
     def reg_operacoes(self,n, producao):
-      
+    
         #operacoes de desempilhamento
         if n == 1:
-            self.arquivo.write("DESEMPILHANDO:...... Topo Pilha: {0} ->  producao a ser inserida {1}. \n".format(self.pilha_sintatica[-1], producao))
-            #self.arquivo.write("DESEMPILHANDO:{0} ->  producao {1} inserida. \n".format(self.pilha_sintatica[-1], producao))
+            self.arquivo.write("DESEMPILHANDO:{0} ->  producao {1} inserida. \n".format(self.pilha_sintatica[-1], producao))
         #operacoes de empilhamento
         elif n == 2:
-            self.arquivo.write("EMPILHANDO:......... Topo Pilha: {0} -> producao aplicada {1}. \n".format(self.pilha_sintatica[-1], producao))
-            #self.arquivo.write("EMPILHANDO: {0} -> producao {1} aplicada. \n".format(self.pilha_sintatica[-1], producao))
+            self.arquivo.write("EMPILHANDO: {0} -> producao {1} aplicada. \n".format(self.pilha_sintatica[-1], producao))
         #reducao
         elif n ==3:  
-            self.arquivo.write("REDUCAO APLICADA:.... Topo Pilha: {0} First List: {1}\n".format(self.pilha_sintatica[-1],self.list_tokens[0][0] ))
-            #self.arquivo.write("REDUzindo: {0} para {1}\n".format(self.pilha_sintatica[-1],self.list_tokens[0][0] ))
-      
-        
+            self.arquivo.write("REDUzindo: {0} \n".format(self.pilha_sintatica[-1],self.list_tokens[0][0] ))
+       
+
     def log_operacoes (self):
         print("-=-"*20)
-        print("\t\t\tLOG DE OPERACOES")
+        print("\tLOG DE OPERACOES DO ANALISADOR SINTÁTICO")
         print("-=-"*20)
-        print("Empilhamentos.........................:",self.empilhamento)
-        print("Desempilhamento.......................:", self.desempilhamento)
-        print("Producoes utilizadas..................:", self.producoes_aplicadas)
-        print("Redução de Pilha e Lista..............:", self.reducao_pilha_lista)
-        print("Quantidade de producoes utilizadas ...:", len(self.producoes_aplicadas))
-        print("-"*20)
+
         arquivo = open("log_operacao.txt","r")
         for linha in arquivo:
             linha = linha.rstrip()
