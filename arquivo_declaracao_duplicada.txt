@@ -1,0 +1,22 @@
+kinicio
+
+    kint numero = 5;
+    kint fibonacci = 0;
+    kint auxiliar;
+
+    enkuanto(fibonacci<100)
+        kint auxiliar;
+        eskreva(numero);
+        fibonacci=fibonacci+auxiliar;
+        auxiliar=numero;
+        numero=fibonacci;
+    fimenkuanto;
+kim
+
+
+
+
+
+
+
+
