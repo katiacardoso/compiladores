@@ -1,0 +1,12 @@
+kint numero
+kint fibonacci
+kint auxiliar
+numero =  5
+fibonacci =  0
+auxiliar =  0
+sek   ( fibonacci entao
+eskreva numero
+fibonacci =  fibonacci   auxiliar +
+auxiliar =  numero
+numero =  fibonacci
+fimsek

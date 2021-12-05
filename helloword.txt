@@ -1,0 +1,4 @@
+kinicio
+    kint helloworld;
+    eskreva(helloworld);
+kim

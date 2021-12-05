@@ -1,0 +1,12 @@
+kinicio
+
+    kint fibonacci = 0;
+    kint auxiliar;
+
+    enkuanto(fibonacci<100)
+        eskreva(numero);
+        fibonacci=fibonacci+auxiliar;
+        auxiliar=numero;
+        numero=fibonacci;
+    fimenkuanto;
+kim
