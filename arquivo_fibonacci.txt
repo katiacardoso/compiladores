@@ -1,16 +1,19 @@
 kinicio
 
+    eskreva("Codigo de fibonacci");
     kint numero;
-    numero= 5;
-    kint fibonacci;
-    fibonacci = 0;
-    kint auxiliar;
-    auxiliar=0;
+    numero = 5;
 
-    sek(fibonacci<100)
+    kint fibonacci; 
+    fibonacci= 0;
+
+    kint auxiliar;
+    auxiliar = 0 ;
+
+    enkuanto(fibonacci<100)
         eskreva(numero);
         fibonacci=fibonacci+auxiliar;
         auxiliar=numero;
         numero=fibonacci;
-    fimsek;
+    fimenkuanto;
 kim

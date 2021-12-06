@@ -9,7 +9,7 @@ class Analisador_Lexico:
       self._tabela_de_simbolos=[]
       self._lexema=''
       self._fim_linha='\n'
-      self._especiais = ['(',')',';','=','+','-','*','/','==','<']
+      self._especiais = ['(',')',';','=','+','-','*','/','==','<','\"']
       self._arquivo_fonte = arquivo_fonte
       if not os.path.exists(self._arquivo_fonte):
        # self._arquivo_fonte.write('Arquivo de entrada inexistente')
@@ -227,8 +227,7 @@ class Analisador_Lexico:
         print('Erro léxico ({0},{1}): _caracter {2} inesperado'.format(self._numero_da_linha, self._cabeca,self._caracter))
 
     def _q7(self):
-      # reconhece o comando eskreva
-     
+      # reconhece o comando eskreva     
       self._caracter = self._obter_caracter()
       if self._fim_linha == self._caracter:
         self._tabela_de_simbolos.append(['eskreva',self._lexema,self._numero_da_linha,self._cabeca-1])
@@ -1326,9 +1325,7 @@ class Analisador_Lexico:
 
     def _q62(self):
       self._caracter = self._obter_caracter()
-      if ' "\ ' == self._caracter:
-        self._q63()
-      elif self._caracter.isdigit() or self._caracter.islower():
+      '''if self._caracter.isdigit() or self._caracter.islower():
         self._q61()
       elif self._fim_linha == self._caracter:
         self._tabela_de_simbolos.append(['kid',self._lexema,self._numero_da_linha,self._cabeca-1])
@@ -1342,13 +1339,24 @@ class Analisador_Lexico:
       elif self._caracter.isspace():
         self._lexema = self._lexema[:len(self._lexema)-1]
         self._cabeca -= 1
-        self._q61()
+        self._q61()'''
+
+      if self._caracter.isdigit() or self._caracter.isalpha() or self._caracter.isspace() or self._caracter == "!" or self._caracter == ",":
+            self._q63()
+
+      elif self._caracter == "\"":  # logo nao vai existir texto entre eles, ou seja nao precisa da etapa q42.
+            self._q64()
+      elif self._caracter in self._especiais: 
+        self._lexema = self._lexema[:len(self._lexema)-1]
+        self._lexema = ''
+        self._cabeca -= 1
+        self._q0()
       else:
         print('Erro léxico ({0},{1}): _caracter {2} inesperado'.format(self._numero_da_linha, self._cabeca,self._caracter))
 
     def _q63(self):
       self._caracter = self._obter_caracter()
-      if self._caracter == '\"':
+      '''if self._caracter == '\"':
         self._q64()
       elif self._caracter.isdigit() or self._caracter.isalpha() or self._caracter.isspace() or self._caracter == "!" or self._caracter == ",":
         self._q61()
@@ -1364,16 +1372,25 @@ class Analisador_Lexico:
       elif self._caracter.isspace():
         self._lexema = self._lexema[:len(self._lexema)-1]
         self._cabeca -= 1
-        self._q61()
-      else:
-        print('Erro léxico ({0},{1}): _caracter {2} inesperado'.format(self._numero_da_linha, self._cabeca,self._caracter))
+        self._q61()'''
+      '''else:
+        print('Erro léxico ({0},{1}): _caracter {2} inesperado'.format(self._numero_da_linha, self._cabeca,self._caracter))'''
+      
+      if self._caracter.isdigit() or self._caracter.isalpha() or self._caracter.isspace() or self._caracter == "!" or self._caracter == ",":
+        self._q63()
+      elif self._caracter == "\"":
+        self._q64()
 
+      else: #Situacao screen("Teste); <- erro, entretando é necessário tratar o erro.
+            
+        print("Erro Léxico: não foi possivel encontrar um token valído na linha {0} coluna {1}. Caracter {2} invalido ou nao esperado.".format(self._numero_de_linha, self._cabeca - len(self._lexema), self._caracter))
+        self._lexema = ""
+        self._cabeca -= 1            
+        self._q0()
 
     def _q64(self):
     #reconhece string
       self._caracter = self._obter_caracter()
-      while self._caracter.isdigit() or self._caracter.islower(): 
-        self._caracter = self._obter_caracter()
       if self._fim_linha == self._caracter:
         self._tabela_de_simbolos.append(['string',self._lexema,self._numero_da_linha,self._cabeca-1])
         self._lexema = ''
@@ -1381,7 +1398,7 @@ class Analisador_Lexico:
         self._lexema = self._lexema[:len(self._lexema)-1]
         self._tabela_de_simbolos.append(['string',self._lexema,self._numero_da_linha,self._cabeca-1])
         self._lexema = ''
-        self._q0()
+        self._q43()
       elif self._caracter in self._especiais:
         self._lexema = self._lexema[:len(self._lexema)-1]
         self._tabela_de_simbolos.append(['string',self._lexema,self._numero_da_linha,self._cabeca-1])
@@ -1390,7 +1407,7 @@ class Analisador_Lexico:
         self._q0()
       else:
         print('Erro léxico ({0},{1}): _caracter {2} inesperado'.format(self._numero_da_linha, self._cabeca,self._caracter))
-        exit()
+        
 
 '''_automato = Analisador_Lexico(sys.argv[2])
 _tabela =_automato.obter_tabela_tokens()

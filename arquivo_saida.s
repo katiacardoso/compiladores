@@ -11,30 +11,18 @@ section .text
 	
 _main:
 
-mov dword[numero], 5
-
 mov dword[fibonacci], 0
 
 mov dword[auxiliar], 0
 
-mov eax,dword[ sek]
-cmp eax,dword[ sek]
+push numero
+push formatin
+call _scanf
+add esp,8
 
 mov ebx, dword[numero]
 push ebx
 push formatout
 call _printf
 add esp, 8
-
-mov eax, dword[fibonacci]
-mov ecx, dword[auxiliar]
-add eax, ecx
-mov dword[fibonacci], eax
-
-mov dword[auxiliar], numero
-
-mov dword[numero], fibonacci
-
-mov eax,dword[ fimsek]
-cmp eax,dword[ fimsek]
 ret

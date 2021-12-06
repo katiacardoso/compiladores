@@ -1,12 +1,13 @@
 kint numero
 kint fibonacci
 kint auxiliar
+eskreva "Codigo de fibonacci"
 numero =  5
 fibonacci =  0
 auxiliar =  0
-sek   ( fibonacci entao
+enkuanto   ( fibonacci
 eskreva numero
 fibonacci =  fibonacci   auxiliar +
 auxiliar =  numero
 numero =  fibonacci
-fimsek
+fimenkuanto
