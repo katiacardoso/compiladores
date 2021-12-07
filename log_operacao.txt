@@ -1,1 +1,3 @@
 Variavel numero declarada
+Variavel fibonacci declarada
+Variavel auxiliar declarada

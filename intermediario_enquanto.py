@@ -1,5 +1,5 @@
 from infixa_posfixa import infix_to_postfix
-
+# só funciona quando tem um (), se tiver dois lascou-se
 class Intermediario:
     def __init__(self, list_tokens, list_id):
         self.lista_tokens = list_tokens
@@ -97,28 +97,20 @@ class Intermediario:
                 j=i+1                         
                 condicao = " "
                 exp = ""
-                while self.lista_tokens[j][0] != ')':                   
-                    if self.lista_tokens[j][0] != '('and self.lista_tokens[j][0] != ')' :
-                        exp += " "+self.lista_tokens[j][1]
-                    j+=1 
-                    if self.lista_tokens[j][0] == "<":
-                        condicao += infix_to_postfix(exp) + " "+self.lista_tokens[j][1]
-                        exp = ""
-                        j+=1
+                if self.lista_tokens[j][0] == "<":
+                    condicao += infix_to_postfix(exp) + " "+self.lista_tokens[j][1]
+                    exp = ""
+                    j+=1
 
-                    elif self.lista_tokens[j][0] == "==":
-                        condicao += infix_to_postfix(exp) + " "+self.lista_tokens[j][1]
-                        exp = ""
-                        j+=1
-
-                    exp += " "+self.lista_tokens[j][1]                        
-                    j+=1 
-
-                if exp.islower():
-                    condicao+= exp
-                else:
-                    condicao += infix_to_postfix(exp) 
-                
+                elif self.lista_tokens[j][0] == "==":
+                    condicao += infix_to_postfix(exp) + " "+self.lista_tokens[j][1]
+                    exp = ""
+                    j+=1
+                                       
+                    
+                            
+                condicao += infix_to_postfix(exp)              
+         
                 self.cod_intermediario.append("sek {0} entao".format(condicao))
                 self.log_intermediario.write("Comando condicional `sek` reconhecido\n ") 
 

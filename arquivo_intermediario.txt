@@ -1,4 +1,14 @@
 kint numero
-eskreva "Codigo de fibonacci"
-numero =  5
-eskreva numero
+kint fibonacci
+kint auxiliar
+eskreva "TESTANDO"
+eskreva "digite o numero"
+leiak numero
+sek   numero < 5 entao
+eskreva "entrou"
+senaok
+eskreva "foi para o senao"
+fimsek
+enkuanto   numero < 5
+eskreva "maior que 5"
+fimenkuanto

@@ -5,17 +5,30 @@ Step: kint numero
 				Detectado kint. Creating code for: numero
 
 
- Step: eskreva "Codigo de fibonacci"
-		Detectado eskreva. Creating code for: "Codigo de fibonacci"
+Step: kint fibonacci
+				Detectado kint. Creating code for: fibonacci
 
 
-Step: {}		 Detectado aritmetica
+Step: kint auxiliar
+				Detectado kint. Creating code for: auxiliar
 
 
- Step: eskreva numero
-		Detectado eskreva. Creating code for: numero
+ Step: eskreva "TESTANDO"
+		Detectado eskreva. Creating code for: "TESTANDO"
 
 
- End of Program...
+ Step: eskreva "digite o numero"
+		Detectado eskreva. Creating code for: "digite o numero"
 
 
+ Step: leiak numero
+		Detectado leiak. Creating code for: numero
+
+
+ Step: enkuanto   ( numero
+		 enkuanto Statement --> Jumping JMP to (
+
+
+
+ Step: eskreva "maior que 5"
+		Detectado eskreva. Creating code for: "maior que 5"

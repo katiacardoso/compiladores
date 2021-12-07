@@ -78,8 +78,6 @@ class Analisador_Lexico:
         self._q59()
       elif '\"' == self._caracter:
         self._q62()
-      elif ':'== self._caracter:
-        self._q65()
       elif self._fim_linha == self._caracter:
         pass
       elif self._caracter.isdigit():
@@ -1405,30 +1403,5 @@ class Analisador_Lexico:
         self._q0()
       else:
         print('Erro léxico ({0},{1}): _caracter {2} inesperado'.format(self._numero_da_linha, self._cabeca,self._caracter))
-    
-    def _q65(self):
-      self._caracter = self._obter_caracter()
+        
 
-      if self._caracter == self._fim_linha:
-        self._tabela_de_simbolos.append([':',self._lexema,self._numero_da_linha,self._cabeca-1])
-        self._lexema = ''
-      elif self._caracter.isspace():
-        self._lexema = self._lexema[:len(self._lexema)-1]
-        self._tabela_de_simbolos.append([':',self._lexema,self._numero_da_linha,self._cabeca-1])
-        self._lexema = ''
-        #self._q43()
-      elif self._caracter.isdigit() or self._caracter.islower():
-        self._lexema = self._lexema[:len(self._lexema)-1]
-        self._tabela_de_simbolos.append([':',self._lexema,self._numero_da_linha,self._cabeca-1])
-        self._lexema = ''
-        self._cabeca -= 1
-        self._q0()
-      else:
-        print("Erro  Léxico: não foi possivel encontrar um token valído na linha {0} coluna {1}. Caracter {2} invalido ou nao esperado.".format(self._numero_da_linha, self._cabeca - len(self._lexema), self._caracter))
-
-'''_automato = Analisador_Lexico(sys.argv[2])
-_tabela =_automato.obter_tabela_tokens()
-print('\n')
-print('[TOKENS,LEXEMA,LINHA,COLUNA]')
-for i in range(len(_tabela)):
-  print(_tabela[i]) '''

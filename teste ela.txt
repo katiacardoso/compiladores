@@ -1,0 +1,22 @@
+kinicio
+
+    eskreva("Codigo de fibonacci");
+    kint numero;
+    kint fibonacci; 
+    kint auxiliar;
+
+    eskreva("digite o numero");
+    leiak(numero);
+
+        numero=numero+auxiliar;
+        auxiliar=numero;
+        numero=fibonacci;
+        eskreva("fibonacci:");
+        eskreva(fibonacci);
+        eskreva("auxiliar:");
+        eskreva(auxiliar);
+        eskreva("numero:");
+        eskreva(numero);
+
+
+kim

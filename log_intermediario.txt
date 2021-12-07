@@ -1,5 +1,13 @@
 Declarado variavel numero
-Comando de escrita da variavel ou string "Codigo de fibonacci"
- Atribuido à numero a expressão  5
- Comando de escrita da variavel ou string numero
+Declarado variavel fibonacci
+Declarado variavel auxiliar
+Comando de escrita da variavel ou string "TESTANDO"
+ Comando de escrita da variavel ou string "digite o numero"
+ Comando de leitura da variavel numero 
+Comando condicional `sek` reconhecido
+ Comando de escrita da variavel ou string "entrou"
+ Comando condicional `senaok` reconhecido
+ Comando de escrita da variavel ou string "foi para o senao"
+ Laço de repetição `enkuanto` reconhecido
+ Comando de escrita da variavel ou string "maior que 5"
  

@@ -1,8 +1,8 @@
 import argparse
 import sys 
 
-from lexico import Analisador_Lexico
-from sintatico import Analisador_Sintatico
+from lexico2 import Analisador_Lexico
+from sintatico2 import Analisador_Sintatico
 from semantico import Analisador_Semantico
 from intermediario import Intermediario
 from finaaal import Codigo_Final
@@ -26,11 +26,11 @@ def log_generated_code(args):
   print("*"*60)
   cod_intermediario = cod_intermediary(args)
   cod_intermediario.log_intermediary() 
-  cod_final = code_finally(args) 
+  #cod_final = code_finally(args) 
   #print("*"*60)
   #print("\t \t  LOG GERAÇÃO DE CODIGO FINAL") 
   #print("*"*60)
-  cod_final.log_finalCode()
+  #cod_final.log_finalCode()
 
 
 #Método responsavel por retornar a lista de tokens.

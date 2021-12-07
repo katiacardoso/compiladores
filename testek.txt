@@ -1,6 +1,6 @@
 kinicio
 
-    eskreva("Codigo de fibonacci");
+    eskreva("TESTANDO");
     kint numero;
     kint fibonacci; 
     kint auxiliar;
@@ -8,15 +8,14 @@ kinicio
     eskreva("digite o numero");
     leiak(numero);
 
-        numero=numero+auxiliar;
-        auxiliar=numero;
-        numero=fibonacci;
-        eskreva("fibonacci:");
-        eskreva(fibonacci);
-        eskreva("auxiliar:");
-        eskreva(auxiliar);
-        eskreva("numero:");
-        eskreva(numero);
+    sek(numero < 5)
+	    eskreva("entrou");
+    senaok
+	    eskreva("foi para o senao");
+    fimsek; 
 
 
+    enkuanto (numero<5)
+      eskreva("maior que 5");
+    fimenkuanto;
 kim

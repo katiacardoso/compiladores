@@ -105,7 +105,7 @@ class Codigo_Final:
                     #main.append(f'mov dword[{line.split("=")[0].strip()}], {line.split("=")[1].strip()}')
                     main.append(f'mov edx, dword[{line.split("=")[1].strip()}]')   #mover outro numero
                     main.append(f'mov [{line.split("=")[0].strip()}], edx')
-                    
+
             elif 'eskreva' in line.split()[0]:    
                 assembly_logger.debug('\n\n\n Step: {}\t\tDetectado eskreva. Creating code for: {}'.format(line, line.split("eskreva")[1].strip()))
                 self.log_final.write('\n\n\n Step: {}\t\tDetectado eskreva. Creating code for: {}'.format(line, line.split("eskreva")[1].strip()))
@@ -185,7 +185,7 @@ class Codigo_Final:
         self.log_final.write('\n\n\n End of Program...\n\n\n')
         code.append('ret')
         self.log_final.close()
-        self.getFinal(code)
+        #self.getFinal(code)
        
         print("Final code generation performed successfully.")
     
@@ -195,8 +195,8 @@ class Codigo_Final:
             arquivo_final.write(line+"\n")
         arquivo_final.close() 
 
-    def log_finalCode(self):
+    '''def log_finalCode(self):
         log_f = open("log_final.txt","r")
         for log in log_f:
             print(log)
-        log_f.close()
+        log_f.close()'''

@@ -32,7 +32,7 @@ def infix_to_postfix(expression): #input expression
             while stack and stack[-1]!= '(':
                 
                 output+=" "+stack.pop()
-                #aqui sai +--*/
+                #aqui sai +--*/ 
             stack.pop()
 
         else:
