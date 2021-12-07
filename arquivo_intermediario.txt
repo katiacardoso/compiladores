@@ -1,0 +1,4 @@
+kint numero
+eskreva "Codigo de fibonacci"
+numero =  5
+eskreva numero

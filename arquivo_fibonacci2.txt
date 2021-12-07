@@ -1,0 +1,5 @@
+kinicio
+
+    eskreva("Codigo de fibonacci");
+    
+kim

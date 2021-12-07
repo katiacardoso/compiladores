@@ -1,0 +1,5 @@
+Declarado variavel numero
+Comando de escrita da variavel ou string "Codigo de fibonacci"
+ Atribuido à numero a expressão  5
+ Comando de escrita da variavel ou string numero
+ 
