@@ -1,0 +1,9 @@
+kinicio
+
+    kint numero = 5;
+    kint auxiliar=0;
+    kint resultado;
+
+    resultado=numero/auxiliar;
+    
+kim

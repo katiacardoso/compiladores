@@ -1,0 +1,21 @@
+
+
+
+Step: kint numero
+				Detectado kint. Creating code for: numero
+
+
+ Step: eskreva "Codigo de fibonacci"
+		Detectado eskreva. Creating code for: "Codigo de fibonacci"
+
+
+Step: {}		 Detectado aritmetica
+
+
+ Step: eskreva numero
+		Detectado eskreva. Creating code for: numero
+
+
+ End of Program...
+
+

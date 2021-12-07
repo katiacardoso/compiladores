@@ -1,0 +1,4 @@
+kinicio
+
+kint abc=1;
+

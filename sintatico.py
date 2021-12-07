@@ -22,84 +22,89 @@ class Analisador_Sintatico:
             1:  [],
             2:  ["INSTRUCAO",";","CODIGO"],
             3:  [],
-            4:  ["VARIAVEIS"],
-            5:  ["ESCREVA"],
-            6:  ["LEIA"],
-            7:  ["CONDICIONAL"],
-            8:  ["REPETICAO"],
-            9:  ["EXPRESSAO"],
-            10: ["eskreva","(","EXPRESSAO" ,")"],
+            4:  ["ESCREVA"],
+            5:  ["LEIA"],
+            6:  ["CONDICIONAL"],
+            7:  ["REPETICAO"],
+            8:  ["VARIAVEIS"],
+            9:  ["ATRIBUICAO"],
+            10: ["eskreva","(","EXPRESSOES" ,")"],
             11: ["leiak","(","kid",")"],
             12: ["SE","SENAO","fimsek"],
             13: ["sek","(","LOGICA",")","CODIGO"],
             14: ["senaok","CODIGO"],
             15: [],
             16: ["ENQUANTO","fimenkuanto"],
-            17: ["enkuanto","(","LOGICA",")","CODIGO"],
-            18: ["=","EXPRESSAO"],
-            19: ["numeko"],
-            20: [], 
-            21: ["kint","kid","ATRIBUICAO"],
-            22: ["kid","EXPRESSAO"],
-            23: ["numeko","EXPRESSAO"],
-            24: ["+","EXPRESSAO"],
-            25: ["*","EXPRESSAO"],
-            26: ["-","EXPRESSAO"],
-            27: ["/","EXPRESSAO"],
-            28: ["=","EXPRESSAO"],
-            29: [],
-            30: ["(","EXPRESSAO",")","EXPRESSAO"],
-            31: ["KID_OU_NUMEKO","OPERADOR_LOGICO","KID_OU_NUMEKO"],
-            32: ["kid"],
-            33: ["numeko"],
-            34: ["=="],
-            35: ["<"]
+            17: [],
+            18: ["enkuanto","(","LOGICA",")","CODIGO"],
+            19: ["kid","=","EXPRESSAO"],
+            20: ["kint","kid"],
+            21: ["kid","OPERADORES"], 
+            22: ["numeko","OPERADORES"],
+            23: ["+","EXPRESSAO"],
+            24: ["-","EXPRESSAO"],
+            25: ["(","EXPRESSAO",")","OPERADORES"],
+            26: ["+","EXPRESSAO"],
+            27: ["-","EXPRESSAO"],
+            28: ["*","EXPRESSAO"],
+            29: ["/","EXPRESSAO"],
+            30: [],
+            31: ["kid"],
+            32: ["numeko"],
+            33: ["KID_OU_NUMEKO","OPERADOR_LOGICO","KID_OU_NUMEKO"],
+            34: ["string"],
+            35: ["STRING"],
+            36: ["EXPRESSAO"],
+            37: ["=="],
+            38: ["<"]
         }
         
         self.nao_terminais = {
             'KINGUAGEM': [0,1],
             'CODIGO': [2, 3],
-            'INSTRUCAO': [3, 4, 5, 6 , 7, 8,9],
+            'INSTRUCAO': [4,5,6,7,8,9],   
             'ESCREVA' : [10],
             'LEIA': [11],
-            'VARIAVEIS': [21],
+            'VARIAVEIS': [20],
             'CONDICIONAL': [12],
-            'REPETICAO': [16],
-            'EXPRESSAO': [22,23,24,25,26,27,28,29,30],
-            'ENQUANTO': [17],
-            'ATRIBUICAO': [18,19,20],
+            'REPETICAO': [16,17],
+            'EXPRESSAO': [21,22,23,24,25],
+            'ENQUANTO': [18],
+            'ATRIBUICAO': [19],
             'SE': [13],
             'SENAO': [14,15],
-            'LOGICA': [31],
-            'KID_OU_NUMEKO': [32,33],
-            'OPERADOR_LOGICO': [34,35] 
+            'LOGICA': [33],
+            'KID_OU_NUMEKO': [31,32,],
+            'OPERADOR_LOGICO': [37,38],
+            'STRING': [34],
+            'OPERADORES': [26,27,28,29,30],
+            'EXPRESSOES': [35,36]  
         }
         
         self.terminais = {
             '$':[1],
-            'numeko':[2,9,23,19,31,33],
-            'kid': [2,9,22,31,32],
-            'kint': [2, 4, 21],
-            '(': [2,9,30],
-            ')':[29],
-            ';':[2,9,29,20],
-            '=':[2,9,28,18],
-            '+':[2,9,24],
-            '-':[2,9,26],
-            '*':[2,9,25],
-            '/':[2,9,27],
-            '==':[34],
-            '<':[35],
+            'numeko':[22,32,33,36],
+            'kid': [2,9,19,21,31,33,36],
+            'kint': [2, 8, 20],
+            '(': [25,36],
+            ')':[30],
+            ';':[2,7,17,30],
+            '+':[23,26,36],
+            '-':[24,27,36],
+            '*':[28],
+            '/':[29],
+            '==':[37],
+            '<':[38],
             'kinicio':[0],
             'kim':[3],
-            'sek':[2,7,12,13],
-            'senaok': [3,14],
+            'sek':[2,6,12,13],
+            'senaok': [3,15],
             'fimsek':[3,15],
-            'enkuanto':[2,8,16,17],
+            'enkuanto':[2,7,16,18],
             'fimenkuanto':[3],
-            'eskreva':[2,5,10],
-            'leiak':[2,6,11],
-            'kint':[2,4,21]
+            'eskreva':[2,4,10],
+            'leiak':[2,5,11],
+            'string': [34,35],
         }
         
     def verificacao_sintatica(self):
@@ -115,15 +120,15 @@ class Analisador_Sintatico:
                 self.desempilhamento += 1     
                     
             elif len(self.list_tokens) == 0 and len(self.pilha_sintatica)>0:
-                print("Errooou Sintático: Pilha sintática possui dados e lista sintática  está vazia [error performing parsing] ", self.pilha_sintatica )
+                print("Errooou Sintático: Pilha sintática possui dados e lista sintática  está vazia ", self.pilha_sintatica )
                 sys.exit()   
             elif len(self.list_tokens) > 0 and (self.pilha_sintatica) == 0:   
-                print("Errooou Sintático: Lista sintática possui dados e pilha sintatica vazia [error performing parsing]", self.list_tokens)               
+                print("Errooou Sintático: Lista sintática possui dados e pilha sintatica vazia ", self.list_tokens)               
                 sys.exit()
             else:
                 self.tabela_sintatica()               
                  
-        self.arquivo.write("DESEMPILHANDO:{0} \n".format(self.pilha_sintatica[-1]))
+        self.arquivo.write("REDUzindo:{0} \n".format(self.pilha_sintatica[-1]))
         self.arquivo.close()
 
      #Método para verificar regras de produção
@@ -132,7 +137,7 @@ class Analisador_Sintatico:
         try:
             producao = self.verifica_producao() 
         except:
-            print("Erro Sintático: não possível encontrar uma producao válida para o valor {0} na linha {1} e coluna {2}.[error performing parsing]".format(self.list_tokens[0][1], self.list_tokens[0][2], self.list_tokens[0][3]))
+            print("Erro Sintático: não possível encontrar uma producao válida para o valor {0} na linha {1} e coluna {2}".format(self.list_tokens[0][1], self.list_tokens[0][2], self.list_tokens[0][3]))
             sys.exit()
         else:
             self.aplica_producao(producao)
@@ -181,7 +186,7 @@ class Analisador_Sintatico:
                     self.reg_operacoes(2, producao)
               
         except:
-            print("Erro Sintático: valor foi possivel encontrar uma producao valida para o valor  {0} na linha {1} e coluna {2}. [error performing parsing]".format(self.list_tokens[0][1], self.list_tokens[0][2], self.list_tokens[0][3]))            
+            print("Erro Sintático: valor foi possivel encontrar uma producao valida para o valor  {0} na linha {1} e coluna {2}".format(self.list_tokens[0][1], self.list_tokens[0][2], self.list_tokens[0][3]))            
          
     def reg_operacoes(self,n, producao):
     
@@ -205,4 +210,5 @@ class Analisador_Sintatico:
         for linha in arquivo:
             linha = linha.rstrip()
             print (linha)
+        print('*'*50)
         arquivo.close()
