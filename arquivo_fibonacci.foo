@@ -1,0 +1,21 @@
+kinicio
+
+    eskreva("TESTANDO");
+    kint numero;
+    kint fibonacci; 
+    kint auxiliar;
+
+    eskreva("digite o numero");
+    leiak(numero);
+    
+    sek(numero<5){
+	eskreva("entrou");
+    }senaok{
+	eskreva("foi par ao senao");
+    };
+
+    enkuanto (numero<5){
+      eskreva("maior que 5");
+    };
+    
+kim

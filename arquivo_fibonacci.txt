@@ -1,17 +1,23 @@
 kinicio
 
-    eskreva("Codigo de fibonacci");
+    eskreva("TESTANDO");
     kint numero;
-    kint fibonacci;
+    kint fibonacci; 
     kint auxiliar;
-    
-    eskreva("digite o numero");
+   
+    eskreva("digite");
     leiak(numero);
 
-    enkuanto(fibonacci<100)
-        eskreva(numero);
-        fibonacci=fibonacci+auxiliar;
-        auxiliar=numero;
-        numero=fibonacci;
-    fimenkuanto;
+    sek(numero<5){
+        eskreva("entrou");
+    senaok
+        eskreva("senao");
+    };
+    
+    enkuanto (numero<5){
+      fibonacci=fibonacci+auxiliar;
+      auxiliar=numero;
+      numero=fibonacci;
+    fimenkuanto};
+    
 kim

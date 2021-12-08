@@ -1,120 +1,78 @@
+import sys
 import argparse
-import sys 
+sys.path.insert(0, 'src')
+from lexico import analisador as lexico
+from sintatico2 import analisador as sintatico
+from semantico import analisador as semantico
+#from geradorCode import intermediaro
 
-from lexico import Analisador_Lexico
-from sintatico import Analisador_Sintatico
-from semantico import Analisador_Semantico
-from intermediario import Intermediario
-from finaaal import Codigo_Final
+def imprime(msg):
+    print(msg)
+    print("-" * 80)  # Faz risco
 
-def analisa_lexico(args):   
-  tabela_tokens(lexical_analyzer(args))
+def erro(cabecalho, texto):  # Funcao de erro recebe o cabecalho e o texto para ser impresso
+    print("\n{:-^40}".format(cabecalho))  # Imprime o cabecalho
+    print(texto)  # Imprime o texto
 
+#if sys.version <= "3.6.6":
+    #erro("ERRO", "A versao do python nao é compativel com o programa, usar a versao 3.6.6 ou posterior ")
 
-def analisa_sintatico(args):
-  analisador_sintatico = _sintatico(args)
-  analisador_sintatico.log_operacoes()
+param = argparse.ArgumentParser()
+param.add_argument("-tudo",help="Exibe todas as listagens do compilador",action="store_true")
+param.add_argument("-lt",help="Exibe  a listagem dos Tokens",action="store_true")
+param.add_argument("-ts",help="Exibe tabela de simbolos",action="store_true")
+param.add_argument("-ls",help="Exibe o LOG do analisador sintático",action="store_true")
+param.add_argument("-lse",help="Exibe o LOG do analisador semantico",action="store_true")
+param.add_argument("-lgc",help="exibe o LOG da geração de código",action="store_true")
+param.add_argument("codigo",type=str,help="Codigo fonte")
+param.add_argument("saida",type=str,help="Arquivo de saida")
+args = param.parse_args()
+ss = []
+if not args:   # verifica se a lista (param) esta vazia
+    print("ERRO","Programa sem ARGUMENTO")  # Chama a funcao erro e passa o erro
+    sys.exit()
 
-#log Analisador Semantico
-def log_semantic_analyzer(args):
-  analisador_semantico = semantic_analyzer(args)
-  analisador_semantico.log_operacoes()
+'''if not '.m' in args.codigo:
+    erro("ERRO","Extensão de arquivo errado")
+    sys.exit()'''
 
-def log_generated_code(args):
-  print("*"*60)
-  print("\t \t LOG CODIGO INTERMEDIARIO") 
-  print("*"*60)
-  cod_intermediario = cod_intermediary(args)
-  cod_intermediario.log_intermediary() 
-  cod_final = code_finally(args) 
-  #print("*"*60)
-  #print("\t \t  LOG GERAÇÃO DE CODIGO FINAL") 
-  #print("*"*60)
-  cod_final.log_finalCode()
+print('Analise Lexica Iniciada')
+lista = lexico(args.codigo)
 
+if lista[1]:
+    print('\n')
+    for i in lista[1]:
+        print(i)
+        sys.exit()
+print("Analise Lexica Concluida!")
+if args.lt or args.tudo:  # Verifica se o usuraio quer que imprima a lista de tokens
+    print('\nLista de Tokens\n')
+    for tokens in lista[0]:  # Anda toda a lista de tokens
+        imprime(f'{tokens.split("|")[0]:^15.15}\t\t\t\t{tokens.split("|")[1]:^16.16}\t\t\t\t{tokens.split("|")[2]:^5}\t\t{tokens.split("|")[3]:^5}')  # Imprime a lista de tokens
 
-#Método responsavel por retornar a lista de tokens.
-def list_tokens(arquivo):
-  analisador_lexico = Analisador_Lexico(arquivo)
-  analisador_lexico.obter_tabela_tokens()       
-  return analisador_lexico._tabela_de_simbolos
+print('Analise Sintatica Iniciada')
+lista[1] = sintatico(lista[0])
+if args.ls or args.tudo:  # Verifica se o usuraio quer que imprima o LOG do analisador sintatico
+    print("\nLOG do analisador sintatico\n")
+    for linha in lista[1]:  # Anda toda a lista
+        imprime(linha)  # Imprime a lista
 
-#Método do analisador léxico
-def lexical_analyzer(args):
-  lista_tokens = list_tokens(args)  
-  return lista_tokens
+print('Analise Semantica Iniciada')
+lista = semantico(lista[0])
+if args.lse or args.tudo:  # Verifica se o usuraio quer que imprima o LOG do analisador semantico
+    print("\nLOG do analisador semantico\n")
+    for linha in lista[1]:  # Anda toda a lista
+        imprime(linha)  # Imprime a lista
 
-#Método do analisador sintático
-def _sintatico(args):
-  lista_tokens = list_tokens(args)
-  analisador_sintatico = Analisador_Sintatico(lista_tokens)
-  analisador_sintatico.verificacao_sintatica()
-  return analisador_sintatico
+'''print('Geração de Código Iniciada')
+lista[1] = intermediaro(lista[0], 0, 0, ss,args.saida)
+print('Geração de Código Finalizada!')
+if args.lgc or args.tudo:  # Verifica se o usuraio quer que imprima o LOG do analisador semantico
+    print("\nLOG da geração de código\n")
+    for linha in lista[1]:  # Anda toda a lista
+        imprime(linha)  # Imprime a lista
 
-#Metodo do analisador semântico
-def semantic_analyzer(args):
-  lista_tokens = lexical_analyzer(args)
-  _sintatico(args)  
-  analisador_semantico = Analisador_Semantico(lista_tokens)  
-  analisador_semantico.inicia_analise()
-  return analisador_semantico
-
-def cod_intermediary(args):
-  lista_tokens = lexical_analyzer(args)
-  _sintatico(args) 
-  analisador_semantico = Analisador_Semantico(lista_tokens)  
-  list_id =  analisador_semantico.inicia_analise()
-  cod_intermediario = Intermediario(lista_tokens, list_id)  
-  cod_intermediario.inicia_geracao()  
-  return cod_intermediario
-
-def code_finally(args):
-  cod_intermediary(args)
-  cod_final = Codigo_Final( "C:\\Users\\ktcar\\Documents\\Compiladores\\lexico\\AnaliseLexica\\arquivo_intermediario.txt")
-  cod_final.inicia_geracao()
-  return cod_final 
-
-
-#Impressao da tabela de tokens
-def tabela_tokens(list_tokens):
-  print('*'*50)
-  print('\t ANALISADOR LÉXICO \t')
-  print('*'*50)
-  print('[Token, Lexema, Linha, Coluna]')
-  for k in (list_tokens):
-    print(k)
-  print('*'*50)
-
-def all(args):
-  analisa_lexico(args)
-  analisa_sintatico(args)
-  log_semantic_analyzer(args)
-  log_generated_code(args)
-
-if __name__ == '__main__':
-
-  
-
-  #cria um objeto parser
-  parser = argparse.ArgumentParser(description = '*Compilador para Kinguagem')  
-  parser.add_argument('-tudo','--tudo', metavar='tudo', help='exibe todas as listagens do compilador')
-  parser.add_argument('-lt', '--lt',metavar='lista_tokens', help='exibe a listagem dos tokens')
-  parser.add_argument('-ls', '--ls',metavar='analise_sintatico', help='exibe o LOG do analisador sintático')
-  parser.add_argument('-lse', '--lse',metavar="analise_semantica", help="exibe o LOG do analisador semântico")
-  parser.add_argument('-lgc','--lgc', metavar="cod-intermediary", help="exibe o LOG do codigo intermediário")
-  parser.add_argument('-code', metavar='cod-final', help='execução do codigo final')
-
-
-  args = parser.parse_args()  
-  if args.tudo:
-    all(args.tudo)    
-  elif args.lt:
-    analisa_lexico(args.lt)  
-  elif args.ls:
-    analisa_sintatico(args.ls)
-  elif args.lse:
-    log_semantic_analyzer(args.lse)
-  elif args.lgc:
-    log_generated_code(args.lgc)
-  elif args.code:
-    code_finally(args.code)
+if args.ts or args.tudo:  # Verifica se o usuraio quer que imprima a tabela de simbolos
+    print("\nTabela de simbolos\n")
+    for linha in lista[2]:  # Anda toda a lista
+        imprime(f"{linha[0]} : {linha[1]}")  # Imprime a lista'''
